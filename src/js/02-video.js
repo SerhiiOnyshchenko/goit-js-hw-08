@@ -1,16 +1,13 @@
 import Player from '@vimeo/player';
+import throttle from 'lodash.throttle';
 
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
-let videoplayerCurrentTime =0
-player.on('timeupdate', function (data) {
-   videoplayerCurrentTime = data.seconds;
-   console.log('seconds:',videoplayerCurrentTime);
-});
+let time = localStorage.getItem('videoplayer-current-time')
 player
-   .setCurrentTime(videoplayerCurrentTime)
-	.then(function (seconds) {
-      // seconds = videoplayerCurrentTime
+   .setCurrentTime(Number(time))
+   .then(function (seconds) {
+      // seconds = the actual time that the player seeked to
    })
    .catch(function (error) {
       switch (error.name) {
@@ -23,3 +20,10 @@ player
             break;
       }
    });
+player.on('timeupdate', throttle(getSecondTime, 1000));
+
+function getSecondTime(data) {
+   localStorage.setItem('videoplayer-current-time', data.seconds);
+}
+
+
