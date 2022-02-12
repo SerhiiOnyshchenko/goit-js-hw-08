@@ -14,9 +14,9 @@ form.addEventListener('submit', resetAndSubnitForm);
 function resetAndSubnitForm(e) {
 		e.preventDefault();
 		const objSubmit = JSON.parse(localStorage.getItem(STORAGE_KEY))
-	console.log('email:',objSubmit.email);
-	console.log('message:', objSubmit.message);
+	console.log(objSubmit);
 	localStorage.removeItem(STORAGE_KEY);
+	formData = {};
    form.reset();
 }
 
